@@ -3,10 +3,10 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>GTNPS Prompt Generator</title>
+    <title>GTNPS - Marketing Department</title>
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@300;400;600;700&family=Syne:wght@400;600;800&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Space+Grotesk:wght@400;500;600;700&display=swap" rel="stylesheet">
     <style>
         :root {
             --bg-light: linear-gradient(135deg, #fff5f7 0%, #ffe8f0 50%, #ffd4e5 100%);
@@ -31,7 +31,7 @@
         }
 
         body {
-            font-family: 'Cormorant Garamond', serif;
+            font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
             background: var(--bg-light);
             color: var(--text-light);
             min-height: 100vh;
@@ -91,23 +91,25 @@
         }
 
         h1 {
-            font-family: 'Syne', sans-serif;
-            font-size: clamp(2.5rem, 8vw, 4.5rem);
-            font-weight: 800;
+            font-family: 'Space Grotesk', monospace;
+            font-size: clamp(3rem, 8vw, 5rem);
+            font-weight: 700;
             background: linear-gradient(135deg, var(--accent-pink) 0%, var(--accent-purple) 100%);
             -webkit-background-clip: text;
             -webkit-text-fill-color: transparent;
             background-clip: text;
             margin-bottom: 0.5rem;
-            letter-spacing: -0.02em;
+            letter-spacing: 0.05em;
             line-height: 1.1;
         }
 
         .subtitle {
-            font-size: 1.25rem;
+            font-family: 'Space Grotesk', monospace;
+            font-size: 1rem;
             opacity: 0.7;
-            font-weight: 300;
-            font-style: italic;
+            font-weight: 500;
+            letter-spacing: 0.15em;
+            text-transform: uppercase;
         }
 
         .card {
@@ -145,20 +147,20 @@
 
         label {
             display: block;
-            font-family: 'Syne', sans-serif;
+            font-family: 'Space Grotesk', monospace;
             font-weight: 600;
-            font-size: 1rem;
+            font-size: 0.875rem;
             margin-bottom: 0.75rem;
             text-transform: uppercase;
-            letter-spacing: 0.05em;
+            letter-spacing: 0.08em;
         }
 
         textarea {
             width: 100%;
             min-height: 120px;
             padding: 1rem;
-            font-family: 'Cormorant Garamond', serif;
-            font-size: 18px;
+            font-family: 'Inter', sans-serif;
+            font-size: 16px;
             background: rgba(255, 255, 255, 0.6);
             border: 2px solid var(--border-light);
             border-radius: 12px;
@@ -196,8 +198,8 @@
         .btn-primary {
             width: 100%;
             padding: 1.25rem 2rem;
-            font-family: 'Syne', sans-serif;
-            font-size: 1.125rem;
+            font-family: 'Space Grotesk', monospace;
+            font-size: 1rem;
             font-weight: 600;
             color: white;
             background: linear-gradient(135deg, var(--accent-pink) 0%, var(--accent-purple) 100%);
@@ -267,15 +269,16 @@
         }
 
         .output-header h2 {
-            font-family: 'Syne', sans-serif;
-            font-size: 1.5rem;
+            font-family: 'Space Grotesk', monospace;
+            font-size: 1.25rem;
             font-weight: 600;
+            letter-spacing: 0.05em;
         }
 
         .char-count {
-            font-size: 0.9rem;
+            font-size: 0.85rem;
             opacity: 0.7;
-            font-family: 'Syne', sans-serif;
+            font-family: 'Space Grotesk', monospace;
         }
 
         .char-count.over-limit {
@@ -312,8 +315,8 @@
 
         .btn-secondary {
             padding: 1rem;
-            font-family: 'Syne', sans-serif;
-            font-size: 1rem;
+            font-family: 'Space Grotesk', monospace;
+            font-size: 0.875rem;
             font-weight: 600;
             background: transparent;
             border: 2px solid var(--accent-pink);
@@ -349,7 +352,7 @@
             background: var(--accent-pink);
             color: white;
             border-radius: 12px;
-            font-family: 'Syne', sans-serif;
+            font-family: 'Space Grotesk', monospace;
             font-weight: 600;
             box-shadow: 0 8px 24px rgba(255, 77, 143, 0.4);
             transform: translateY(150%);
@@ -366,8 +369,8 @@
         select {
             width: 100%;
             padding: 1rem;
-            font-family: 'Cormorant Garamond', serif;
-            font-size: 18px;
+            font-family: 'Inter', sans-serif;
+            font-size: 16px;
             background: rgba(255, 255, 255, 0.6);
             border: 2px solid var(--border-light);
             border-radius: 12px;
@@ -395,15 +398,15 @@
 
         .controls-grid {
             display: grid;
-            grid-template-columns: 1fr 1fr;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
             gap: 1.5rem;
             margin-bottom: 2rem;
         }
 
         .btn-link {
             padding: 1rem;
-            font-family: 'Syne', sans-serif;
-            font-size: 1rem;
+            font-family: 'Space Grotesk', monospace;
+            font-size: 0.875rem;
             font-weight: 600;
             background: transparent;
             border: 2px solid var(--accent-purple);
@@ -470,7 +473,7 @@
     <div class="container">
         <header>
             <h1>GTNPS</h1>
-            <p class="subtitle">Prompt Gen</p>
+            <p class="subtitle">Marketing Department</p>
         </header>
 
         <div class="card">
@@ -513,6 +516,20 @@
                 <div class="input-group">
                     <label for="eyecolor-select">Eye Color</label>
                     <select id="eyecolor-select">
+                        <option value="random">Random</option>
+                    </select>
+                </div>
+
+                <div class="input-group">
+                    <label for="haircolor-select">Hair Color</label>
+                    <select id="haircolor-select">
+                        <option value="random">Random</option>
+                    </select>
+                </div>
+
+                <div class="input-group">
+                    <label for="skintone-select">Skin Tone</label>
+                    <select id="skintone-select">
                         <option value="random">Random</option>
                     </select>
                 </div>
@@ -560,15 +577,57 @@
             }
         });
 
-        const nationalities = ['Iceland', 'Sweden', 'Switzerland', 'Austria', 'Finland', 'Denmark', 'Australia', 'USA', 'England', 'Scotland', 'France', 'Germany', 'Luxembourg', 'Belgium', 'Poland', 'Croatia'];
+        const nationalities = [
+            // European/Caucasian
+            'Iceland', 'Sweden', 'Switzerland', 'Austria', 'Finland', 'Denmark', 'Norway', 'England', 'Scotland', 'Ireland', 'France', 'Germany', 'Luxembourg', 'Belgium', 'Poland', 'Croatia', 'Italy', 'Spain', 'Portugal', 'Greece', 'Russia', 'Czech Republic', 'Netherlands', 'USA', 'Canada', 'Australia', 'New Zealand',
+            // Asian
+            'Japan', 'China', 'Korea', 'Vietnam', 'Thailand', 'Philippines', 'Indonesia', 'Malaysia', 'Singapore', 'India', 'Pakistan', 'Bangladesh', 'Nepal', 'Sri Lanka', 'Cambodia', 'Laos', 'Myanmar', 'Taiwan', 'Hong Kong',
+            // Latin American
+            'Mexico', 'Brazil', 'Argentina', 'Colombia', 'Peru', 'Chile', 'Venezuela', 'Ecuador', 'Guatemala', 'Cuba', 'Dominican Republic', 'Puerto Rico', 'Costa Rica', 'Panama', 'Uruguay', 'Bolivia',
+            // African/Black
+            'Nigeria', 'Ethiopia', 'Kenya', 'Ghana', 'South Africa', 'Egypt', 'Morocco', 'Senegal', 'Tanzania', 'Uganda', 'Jamaica', 'Haiti', 'Trinidad', 'Barbados',
+            // Middle Eastern
+            'Turkey', 'Iran', 'Lebanon', 'Israel', 'Jordan', 'UAE', 'Saudi Arabia'
+        ];
 
         const themes = ['surreal', 'hyperreal', 'cottagecore', 'barbiecore', 'fairycore', 'orchardcore', 'meadowcore', 'forestcore', 'seaside cottagecore', 'gardencore', 'dreamcore', 'nostalgiacore', 'vintagecore', 'maximalist', 'minimalist', 'bohemian', 'romantic', 'ethereal', 'avant-garde', 'retro-futurism', 'art nouveau', 'impressionist', 'neo-baroque', 'tropical', 'desert minimalism', 'Nordic hygge', 'Mediterranean', 'Californian', 'Parisian chic', 'Japanese aesthetic', 'mid-century modern'];
 
-        const professions = ['nursing', 'midwifery', 'elementary teaching', 'nursery teaching', 'secretarial work', 'domestic service', 'housekeeping', 'childcare work', 'textile mill work', 'garment sewing', 'dressmaking', 'waitressing', 'cafeteria work', 'cooking', 'baking', 'social work', 'librarianship', 'hospitality hosting', 'hotel housekeeping', 'beautician work', 'hairdressing', 'cosmetics sales', 'retail counter work', 'floral arranging', 'kindergarten instruction', 'home economics teaching', 'dental assisting', 'medical assisting', 'pharmacy assisting', 'weaving', 'embroidery work', 'daycare management'];
+        const professions = ['50s housewife', 'Victorian lady', 'Southern belle', 'Geisha', 'Courtesan', 'Concubine', 'Harem girl', 'Odalisque', 'Mistress', 'Governess', 'Lady-in-waiting', 'Handmaiden', 'Chambermaid', 'Scullery maid', 'Kitchen maid', 'Laundress', 'Seamstress', 'Milliner', 'Dressmaker', 'Wet nurse', 'Nanny', 'Tutor', 'Companion', 'Chaperone', 'Debutante', 'Socialite', 'Flapper', 'Suffragette', 'Rosie the Riveter', 'Pin-up girl', 'Showgirl', 'Chorine', 'Burlesque dancer', 'Can-can dancer', 'Salonniere', 'Demimondaine', 'Cocotte', 'Grisette', 'Lorette', 'Doxie', 'Trollop', 'Strumpet', 'Harlot', 'Prostitute', 'Call girl', 'Escort', 'Paramour', 'Nurse', 'Teacher', 'Secretary', 'Maid', 'Librarian', 'Receptionist', 'Cashier', 'Waitress', 'Housekeeper', 'Cook', 'Babysitter', 'Social Worker', 'Hairdresser', 'Manicurist', 'Pedicurist', 'Esthetician', 'Fashion Designer', 'Florist', 'Midwife', 'Daycare Worker', 'Elementary School Teacher', 'Flight Attendant', 'Model', 'Actress', 'Dancer', 'Singer', 'Cleaner', 'Tailor', 'Caregiver', 'Home Health Aide', 'Personal Shopper', 'Interior Designer', 'Event Planner', 'Wedding Planner', 'Makeup Artist', 'Nail Technician', 'Spa Therapist', 'Massage Therapist', 'Dietitian', 'Nutritionist', 'Speech Therapist', 'Occupational Therapist', 'Physical Therapist', 'Psychologist', 'Counselor', 'HR Specialist', 'Administrative Assistant', 'Bank Teller', 'Retail Salesperson', 'Customer Service Representative', 'Telephone Operator', 'Data Entry Clerk', 'Bookkeeper', 'Accountant', 'Paralegal', 'Legal Secretary', 'Medical Secretary', 'Dental Hygienist', 'Pharmacy Technician', 'Medical Assistant', 'Phlebotomist', 'Lab Technician', 'Radiology Technician', 'Ultrasound Technician', 'EEG Technician', 'EKG Technician', 'Surgical Technician', 'Medical Transcriptionist', 'Medical Biller', 'Medical Coder', 'Medical Records Clerk', 'Medical Receptionist', 'Medical Office Manager', 'Medical Office Assistant', 'Medical Office Administrator', 'Medical Office Coordinator', 'Medical Office Specialist', 'Medical Office Technician'];
 
-        const hairStyles = ['loose side braid', 'messy low bun', 'wind-tousled half-up twist', 'loose fishtail braid', 'wind-swept crown braid', 'loose double-bun', 'wind-tangled side braid', 'high ponytail', 'low ponytail', 'messy crown braid', 'loose bob', 'sleek straight', 'beachy waves', 'voluminous curls', 'half-up half-down', 'French twist', 'messy top knot', 'braided crown', 'waterfall braid'];
+        const hairColors = [
+            'Bright white platinum blonde', 'Golden blonde', 'Honey blonde', 'Ash blonde', 'Strawberry blonde',
+            'Light brown', 'Chestnut brown', 'Dark brown', 'Chocolate brown',
+            'Jet black', 'Blue-black', 'Raven black',
+            'Auburn', 'Copper red', 'Dark auburn',
+            'Salt and pepper', 'Silver grey'
+        ];
 
-        const eyeColors = ['pale grey with a faint green ring', 'ice blue with a pale green inner ring', 'light grey with a faint ice-blue ring', 'pale green with a faint icy ring', 'light grey with faint pale-green flecks', 'ice-blue with a faint heterochromatic ring of green', 'warm hazel with golden flecks', 'deep brown with amber highlights', 'emerald green', 'sapphire blue', 'stormy grey', 'honey amber'];
+        const hairStyles = ['loose side braid', 'messy low bun', 'wind-tousled half-up twist', 'loose fishtail braid', 'wind-swept crown braid', 'loose double-bun', 'wind-tangled side braid', 'high ponytail', 'low ponytail', 'messy crown braid', 'loose bob', 'sleek straight', 'beachy waves', 'voluminous curls', 'half-up half-down', 'French twist', 'messy top knot', 'braided crown', 'waterfall braid', 'afro', 'box braids', 'cornrows', 'locs', 'natural curls', 'sleek chignon'];
+
+        const eyeColors = [
+            'pale grey with a faint green ring', 'ice blue with a pale green inner ring', 'light grey with a faint ice-blue ring', 'pale green with a faint icy ring', 'light grey with faint pale-green flecks', 'ice-blue with a faint heterochromatic ring of green',
+            'warm hazel with golden flecks', 'deep brown with amber highlights', 'emerald green', 'sapphire blue', 'stormy grey', 'honey amber',
+            'dark brown', 'nearly black', 'rich chocolate brown', 'warm brown with copper flecks',
+            'almond-shaped dark brown', 'deep black-brown', 'mahogany brown',
+            'olive green', 'grey-green', 'amber gold'
+        ];
+
+        const skinTones = [
+            'Porcelain pale with rosy undertones',
+            'Fair with golden undertones',
+            'Light olive with warm undertones',
+            'Beige with neutral undertones',
+            'Tan with golden undertones',
+            'Light brown with warm undertones',
+            'Medium brown with rich undertones',
+            'Deep brown with mahogany undertones',
+            'Rich ebony with cool undertones',
+            'Caramel with golden undertones',
+            'Honey-toned with warm glow',
+            'Bronze with copper undertones',
+            'Sienna with warm red undertones',
+            'Deep umber with rich tones'
+        ];
 
         const colorPalettes = [
             'Soft pinks, lilacs, creams, muted pastels',
@@ -643,6 +702,22 @@
                 option.textContent = color.charAt(0).toUpperCase() + color.slice(1);
                 eyeColorSelect.appendChild(option);
             });
+
+            const hairColorSelect = document.getElementById('haircolor-select');
+            hairColors.forEach(color => {
+                const option = document.createElement('option');
+                option.value = color;
+                option.textContent = color;
+                hairColorSelect.appendChild(option);
+            });
+
+            const skinToneSelect = document.getElementById('skintone-select');
+            skinTones.forEach(tone => {
+                const option = document.createElement('option');
+                option.value = tone;
+                option.textContent = tone;
+                skinToneSelect.appendChild(option);
+            });
         }
 
         function generatePrompt(customInstructions) {
@@ -653,6 +728,8 @@
             const professionValue = document.getElementById('profession-select').value;
             const hairStyleValue = document.getElementById('hairstyle-select').value;
             const eyeColorValue = document.getElementById('eyecolor-select').value;
+            const hairColorValue = document.getElementById('haircolor-select').value;
+            const skinToneValue = document.getElementById('skintone-select').value;
 
             const age = ageValue === 'random' ? randomAge() : parseInt(ageValue);
             const nationality = nationalityValue === 'random' ? random(nationalities) : nationalityValue;
@@ -660,6 +737,8 @@
             const profession = professionValue === 'random' ? random(professions) : professionValue;
             const hairStyle = hairStyleValue === 'random' ? random(hairStyles) : hairStyleValue;
             const eyeColor = eyeColorValue === 'random' ? random(eyeColors) : eyeColorValue;
+            const hairColor = hairColorValue === 'random' ? random(hairColors) : hairColorValue;
+            const skinTone = skinToneValue === 'random' ? random(skinTones) : skinToneValue;
             const colorPalette = random(colorPalettes);
 
             const brandingOptions = ['GRAND TAITON', '@GrandTaitonNPS'];
@@ -667,28 +746,33 @@
 
             // Generate profession-appropriate settings
             const settingMap = {
-                'nursing': 'vintage medical clinic with pastel curtains',
-                'baking': 'rustic countryside bakery with warm lighting',
-                'floral arranging': 'sun-drenched flower shop with hanging blooms',
-                'teaching': 'light-filled vintage classroom with wooden desks',
-                'waitressing': 'cozy pastel café with mismatched furniture',
-                'hairdressing': 'boutique salon with vintage mirrors',
-                'librarianship': 'intimate vintage library with arched windows',
-                'retail counter work': 'charming vintage shop with display cases',
-                'default': 'sun-lit vintage workspace with soft imperfections'
+                'Nurse': 'vintage medical clinic with atmospheric lighting',
+                'Geisha': 'traditional Japanese tea house with paper screens',
+                'Victorian lady': 'ornate Victorian parlor with velvet furnishings',
+                'Southern belle': 'antebellum mansion veranda with white columns',
+                '50s housewife': 'retro 1950s kitchen with pastel appliances',
+                'Flapper': '1920s jazz club with art deco details',
+                'Teacher': 'light-filled vintage classroom with wooden desks',
+                'Waitress': 'vintage diner or café with period details',
+                'Librarian': 'intimate vintage library with arched windows',
+                'Secretary': 'mid-century office with typewriters',
+                'Model': 'photography studio with vintage backdrops',
+                'Showgirl': 'theatrical dressing room with vanity mirrors',
+                'Flight Attendant': 'vintage airplane cabin or airport lounge',
+                'default': 'atmospheric vintage workspace with period-appropriate details'
             };
 
             const setting = settingMap[profession] || settingMap['default'];
 
             const accessories = [
-                'Smudged rose-pink lipstick',
-                `Silver ${random(['heart', 'leaf', 'flower', 'wave'])} pendant with a crooked clasp`,
-                'Frayed woven bracelet',
-                `Chipped pastel ${random(['mint', 'lavender', 'rose', 'pink'])} nail polish`,
-                `Canvas tote with ${random(['frayed edges', 'a pulled thread', 'worn handles'])}`
+                `${random(['Glossy', 'Matte', 'Smudged'])} ${random(['red', 'pink', 'coral', 'berry', 'nude', 'crimson'])} lipstick`,
+                `${random(['Silver', 'Gold', 'Bronze', 'Pearl'])} ${random(['heart', 'leaf', 'flower', 'wave', 'geometric'])} ${random(['pendant', 'earrings', 'brooch'])} with ${random(['a crooked clasp', 'vintage patina', 'delicate details'])}`,
+                `${random(['Frayed', 'Braided', 'Beaded', 'Leather'])} ${random(['bracelet', 'anklet', 'necklace'])}`,
+                `${random(['Chipped', 'Glossy', 'Matte'])} ${random(['red', 'pink', 'burgundy', 'coral', 'nude', 'black'])} nail polish`,
+                `${random(['Leather', 'Canvas', 'Silk', 'Velvet'])} ${random(['handbag', 'clutch', 'tote', 'purse'])} with ${random(['worn handles', 'vintage clasp', 'ornate details'])}`
             ];
 
-            const skinDetails = `Pale with scattered freckles, a faint scratch near her ${random(['collarbone', 'shoulder', 'forearm', 'elbow'])}, and uneven early-summer tan lines`;
+            const skinDetails = `${skinTone} with ${random(['scattered freckles', 'smooth texture', 'subtle beauty marks', 'natural glow'])}, a faint ${random(['scratch', 'mark', 'bruise'])} near her ${random(['collarbone', 'shoulder', 'forearm', 'elbow', 'wrist'])}, and ${random(['natural skin tone variation', 'subtle tan lines', 'even complexion', 'soft shadows'])}`;
 
             const attireColors = ['cream', 'hot-pink', 'pastel-rose', 'lilac', 'soft lavender', 'deep burgundy', 'emerald green', 'sapphire blue', 'burnt orange', 'charcoal grey', 'ivory', 'crimson', 'teal', 'mustard', 'coral', 'navy', 'terracotta', 'sage', 'chocolate brown', 'electric blue'];
             const topColor = random(attireColors);
@@ -701,12 +785,12 @@
                     age: age,
                     nationality: nationality,
                     appearance: {
-                        hair: `Bright white platinum blonde in a ${hairStyle}, with several wisps escaping and clinging to her temples`,
+                        hair: `${hairColor} in a ${hairStyle}, with several wisps escaping and ${random(['clinging to her temples', 'framing her face', 'catching the light', 'falling naturally'])}`,
                         eyes: eyeColor,
                         body_type: `Exceptionally skinny with fabric subtly stretched over fully covered but disproportionately large breasts`,
                         skin: skinDetails
                     },
-                    action: `She laughs mid-motion while ${random(['adjusting', 'steadying', 'reaching for', 'lifting'])} ${random(['a tilted basket', 'scattered items', 'a stack of materials', 'tools of her trade'])}, one hand brushing hair from her face`
+                    action: `She ${random(['laughs', 'smiles', 'glances away', 'pauses'])} mid-motion while ${random(['adjusting', 'steadying', 'reaching for', 'lifting', 'arranging'])} ${random(['a tilted basket', 'scattered items', 'a stack of materials', 'tools of her trade', 'delicate objects'])}, one hand ${random(['brushing hair from her face', 'touching her collar', 'adjusting her clothing', 'gesturing gracefully'])}`
                 },
                 attire: {
                     description: `A ${topColor} ${random(['linen blouse', 'cotton top', 'knit cardigan', 'silk shirt', 'velvet top', 'satin camisole'])} slipping off one shoulder, rumpled; a ${bottomColor} ${random(['skirt', 'sundress', 'camisole beneath', 'flowing dress', 'midi skirt'])}; worn ${random(['sandals', 'flats', 'boots', 'heels', 'sneakers'])}`,
