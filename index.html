@@ -1,0 +1,792 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Grand Taiton Prompt Generator</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@300;400;600;700&family=Syne:wght@400;600;800&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --bg-light: linear-gradient(135deg, #fff5f7 0%, #ffe8f0 50%, #ffd4e5 100%);
+            --bg-dark: linear-gradient(135deg, #1a0e13 0%, #2d1420 50%, #3d1a2b 100%);
+            --card-light: rgba(255, 255, 255, 0.85);
+            --card-dark: rgba(40, 20, 30, 0.85);
+            --text-light: #2d1420;
+            --text-dark: #ffe8f0;
+            --accent-pink: #ff4d8f;
+            --accent-purple: #c471ed;
+            --accent-cream: #fff9f0;
+            --border-light: rgba(255, 77, 143, 0.3);
+            --border-dark: rgba(196, 113, 237, 0.3);
+            --shadow-light: rgba(255, 77, 143, 0.15);
+            --shadow-dark: rgba(196, 113, 237, 0.25);
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Cormorant Garamond', serif;
+            background: var(--bg-light);
+            color: var(--text-light);
+            min-height: 100vh;
+            padding: 2rem 1rem;
+            transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+            position: relative;
+            overflow-x: hidden;
+        }
+
+        body::before {
+            content: '';
+            position: fixed;
+            top: -50%;
+            left: -50%;
+            width: 200%;
+            height: 200%;
+            background: radial-gradient(circle at 30% 20%, rgba(255, 77, 143, 0.1) 0%, transparent 50%),
+                        radial-gradient(circle at 70% 80%, rgba(196, 113, 237, 0.08) 0%, transparent 50%);
+            animation: float 20s ease-in-out infinite;
+            pointer-events: none;
+            z-index: 0;
+        }
+
+        @keyframes float {
+            0%, 100% { transform: translate(0, 0) rotate(0deg); }
+            33% { transform: translate(3%, -3%) rotate(2deg); }
+            66% { transform: translate(-3%, 3%) rotate(-2deg); }
+        }
+
+        body.dark {
+            background: var(--bg-dark);
+            color: var(--text-dark);
+        }
+
+        .container {
+            max-width: 800px;
+            margin: 0 auto;
+            position: relative;
+            z-index: 1;
+        }
+
+        header {
+            text-align: center;
+            margin-bottom: 3rem;
+            animation: slideDown 0.8s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+
+        @keyframes slideDown {
+            from {
+                opacity: 0;
+                transform: translateY(-30px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        h1 {
+            font-family: 'Syne', sans-serif;
+            font-size: clamp(2.5rem, 8vw, 4.5rem);
+            font-weight: 800;
+            background: linear-gradient(135deg, var(--accent-pink) 0%, var(--accent-purple) 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            margin-bottom: 0.5rem;
+            letter-spacing: -0.02em;
+            line-height: 1.1;
+        }
+
+        .subtitle {
+            font-size: 1.25rem;
+            opacity: 0.7;
+            font-weight: 300;
+            font-style: italic;
+        }
+
+        .card {
+            background: var(--card-light);
+            backdrop-filter: blur(20px);
+            border-radius: 24px;
+            padding: 2.5rem;
+            margin-bottom: 2rem;
+            box-shadow: 0 8px 32px var(--shadow-light),
+                        0 0 0 1px var(--border-light);
+            transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+            animation: fadeIn 0.8s ease-out;
+        }
+
+        @keyframes fadeIn {
+            from {
+                opacity: 0;
+                transform: translateY(20px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        body.dark .card {
+            background: var(--card-dark);
+            box-shadow: 0 8px 32px var(--shadow-dark),
+                        0 0 0 1px var(--border-dark);
+        }
+
+        .input-group {
+            margin-bottom: 2rem;
+        }
+
+        label {
+            display: block;
+            font-family: 'Syne', sans-serif;
+            font-weight: 600;
+            font-size: 1rem;
+            margin-bottom: 0.75rem;
+            text-transform: uppercase;
+            letter-spacing: 0.05em;
+        }
+
+        textarea {
+            width: 100%;
+            min-height: 120px;
+            padding: 1rem;
+            font-family: 'Cormorant Garamond', serif;
+            font-size: 18px;
+            background: rgba(255, 255, 255, 0.6);
+            border: 2px solid var(--border-light);
+            border-radius: 12px;
+            color: var(--text-light);
+            resize: vertical;
+            transition: all 0.3s ease;
+        }
+
+        body.dark textarea {
+            background: rgba(0, 0, 0, 0.3);
+            border-color: var(--border-dark);
+            color: var(--text-dark);
+        }
+
+        textarea:focus {
+            outline: none;
+            border-color: var(--accent-pink);
+            box-shadow: 0 0 0 4px rgba(255, 77, 143, 0.1);
+        }
+
+        body.dark textarea:focus {
+            border-color: var(--accent-purple);
+            box-shadow: 0 0 0 4px rgba(196, 113, 237, 0.1);
+        }
+
+        textarea::placeholder {
+            color: rgba(45, 20, 32, 0.4);
+            font-style: italic;
+        }
+
+        body.dark textarea::placeholder {
+            color: rgba(255, 232, 240, 0.4);
+        }
+
+        .btn-primary {
+            width: 100%;
+            padding: 1.25rem 2rem;
+            font-family: 'Syne', sans-serif;
+            font-size: 1.125rem;
+            font-weight: 600;
+            color: white;
+            background: linear-gradient(135deg, var(--accent-pink) 0%, var(--accent-purple) 100%);
+            border: none;
+            border-radius: 16px;
+            cursor: pointer;
+            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+            text-transform: uppercase;
+            letter-spacing: 0.1em;
+            box-shadow: 0 4px 16px rgba(255, 77, 143, 0.3);
+            position: relative;
+            overflow: hidden;
+        }
+
+        .btn-primary::before {
+            content: '';
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            width: 0;
+            height: 0;
+            border-radius: 50%;
+            background: rgba(255, 255, 255, 0.3);
+            transform: translate(-50%, -50%);
+            transition: width 0.6s, height 0.6s;
+        }
+
+        .btn-primary:hover::before {
+            width: 300px;
+            height: 300px;
+        }
+
+        .btn-primary:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 8px 24px rgba(255, 77, 143, 0.4);
+        }
+
+        .btn-primary:active {
+            transform: translateY(0);
+        }
+
+        .btn-primary:disabled {
+            opacity: 0.6;
+            cursor: not-allowed;
+            transform: none;
+        }
+
+        .btn-text {
+            position: relative;
+            z-index: 1;
+        }
+
+        #output-section {
+            display: none;
+            animation: fadeIn 0.6s ease-out;
+        }
+
+        #output-section.show {
+            display: block;
+        }
+
+        .output-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 1.5rem;
+        }
+
+        .output-header h2 {
+            font-family: 'Syne', sans-serif;
+            font-size: 1.5rem;
+            font-weight: 600;
+        }
+
+        .char-count {
+            font-size: 0.9rem;
+            opacity: 0.7;
+            font-family: 'Syne', sans-serif;
+        }
+
+        .char-count.over-limit {
+            color: var(--accent-pink);
+            font-weight: 600;
+        }
+
+        #json-output {
+            width: 100%;
+            min-height: 300px;
+            padding: 1.5rem;
+            font-family: 'Monaco', 'Courier New', monospace;
+            font-size: 14px;
+            background: rgba(0, 0, 0, 0.05);
+            border: 2px solid var(--border-light);
+            border-radius: 12px;
+            color: var(--text-light);
+            resize: vertical;
+            line-height: 1.6;
+        }
+
+        body.dark #json-output {
+            background: rgba(0, 0, 0, 0.4);
+            border-color: var(--border-dark);
+            color: var(--text-dark);
+        }
+
+        .button-group {
+            display: grid;
+            grid-template-columns: 1fr 1fr 1fr;
+            gap: 1rem;
+            margin-top: 1.5rem;
+        }
+
+        .btn-secondary {
+            padding: 1rem;
+            font-family: 'Syne', sans-serif;
+            font-size: 1rem;
+            font-weight: 600;
+            background: transparent;
+            border: 2px solid var(--accent-pink);
+            color: var(--accent-pink);
+            border-radius: 12px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            text-transform: uppercase;
+            letter-spacing: 0.05em;
+        }
+
+        .btn-secondary:hover {
+            background: var(--accent-pink);
+            color: white;
+            transform: translateY(-2px);
+        }
+
+        body.dark .btn-secondary {
+            border-color: var(--accent-purple);
+            color: var(--accent-purple);
+        }
+
+        body.dark .btn-secondary:hover {
+            background: var(--accent-purple);
+            color: white;
+        }
+
+        .notification {
+            position: fixed;
+            bottom: 2rem;
+            right: 2rem;
+            padding: 1rem 1.5rem;
+            background: var(--accent-pink);
+            color: white;
+            border-radius: 12px;
+            font-family: 'Syne', sans-serif;
+            font-weight: 600;
+            box-shadow: 0 8px 24px rgba(255, 77, 143, 0.4);
+            transform: translateY(150%);
+            opacity: 0;
+            transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+            z-index: 1000;
+        }
+
+        .notification.show {
+            transform: translateY(0);
+            opacity: 1;
+        }
+
+        select {
+            width: 100%;
+            padding: 1rem;
+            font-family: 'Cormorant Garamond', serif;
+            font-size: 18px;
+            background: rgba(255, 255, 255, 0.6);
+            border: 2px solid var(--border-light);
+            border-radius: 12px;
+            color: var(--text-light);
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+
+        body.dark select {
+            background: rgba(0, 0, 0, 0.3);
+            border-color: var(--border-dark);
+            color: var(--text-dark);
+        }
+
+        select:focus {
+            outline: none;
+            border-color: var(--accent-pink);
+            box-shadow: 0 0 0 4px rgba(255, 77, 143, 0.1);
+        }
+
+        body.dark select:focus {
+            border-color: var(--accent-purple);
+            box-shadow: 0 0 0 4px rgba(196, 113, 237, 0.1);
+        }
+
+        .controls-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 1.5rem;
+            margin-bottom: 2rem;
+        }
+
+        .btn-link {
+            padding: 1rem;
+            font-family: 'Syne', sans-serif;
+            font-size: 1rem;
+            font-weight: 600;
+            background: transparent;
+            border: 2px solid var(--accent-purple);
+            color: var(--accent-purple);
+            border-radius: 12px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            text-transform: uppercase;
+            letter-spacing: 0.05em;
+            text-decoration: none;
+            display: inline-block;
+            text-align: center;
+        }
+
+        .btn-link:hover {
+            background: var(--accent-purple);
+            color: white;
+            transform: translateY(-2px);
+        }
+
+        body.dark .btn-link {
+            border-color: var(--accent-pink);
+            color: var(--accent-pink);
+        }
+
+        body.dark .btn-link:hover {
+            background: var(--accent-pink);
+            color: white;
+        }
+
+        @media (max-width: 640px) {
+            body {
+                padding: 1.5rem 1rem;
+            }
+
+            .card {
+                padding: 1.5rem;
+            }
+
+            h1 {
+                font-size: 2.5rem;
+            }
+
+            .subtitle {
+                font-size: 1rem;
+            }
+
+            .button-group {
+                grid-template-columns: 1fr;
+            }
+
+            .controls-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .notification {
+                left: 1rem;
+                right: 1rem;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <header>
+            <h1>Grand Taiton</h1>
+            <p class="subtitle">Hyperrealistic Prompt Generator</p>
+        </header>
+
+        <div class="card">
+            <div class="controls-grid">
+                <div class="input-group">
+                    <label for="nationality-select">Nationality</label>
+                    <select id="nationality-select">
+                        <option value="random">Random</option>
+                    </select>
+                </div>
+
+                <div class="input-group">
+                    <label for="age-select">Age</label>
+                    <select id="age-select">
+                        <option value="random">Random</option>
+                    </select>
+                </div>
+
+                <div class="input-group">
+                    <label for="theme-select">Theme</label>
+                    <select id="theme-select">
+                        <option value="random">Random</option>
+                    </select>
+                </div>
+
+                <div class="input-group">
+                    <label for="profession-select">Profession</label>
+                    <select id="profession-select">
+                        <option value="random">Random</option>
+                    </select>
+                </div>
+
+                <div class="input-group">
+                    <label for="hairstyle-select">Hair Style</label>
+                    <select id="hairstyle-select">
+                        <option value="random">Random</option>
+                    </select>
+                </div>
+
+                <div class="input-group">
+                    <label for="eyecolor-select">Eye Color</label>
+                    <select id="eyecolor-select">
+                        <option value="random">Random</option>
+                    </select>
+                </div>
+            </div>
+
+            <div class="input-group">
+                <label for="custom-instructions">Custom Instructions (Optional)</label>
+                <textarea
+                    id="custom-instructions"
+                    placeholder="Add any additional preferences or customizations..."
+                ></textarea>
+            </div>
+
+            <button class="btn-primary" id="generate-btn">
+                <span class="btn-text">Generate Prompt</span>
+            </button>
+        </div>
+
+        <div id="output-section" class="card">
+            <div class="output-header">
+                <h2>Generated JSON</h2>
+                <span class="char-count" id="char-count">0 / 1750 characters</span>
+            </div>
+            <textarea id="json-output" readonly></textarea>
+            <div class="button-group">
+                <button class="btn-secondary" id="copy-btn">Copy JSON</button>
+                <button class="btn-secondary" id="new-btn">Generate New</button>
+                <a href="https://www.krea.ai/image" target="_blank" rel="noopener noreferrer" class="btn-link">Generate Image</a>
+            </div>
+        </div>
+    </div>
+
+    <div class="notification" id="notification"></div>
+
+    <script>
+        // Dark mode detection
+        if (window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches) {
+            document.documentElement.classList.add('dark');
+        }
+        window.matchMedia('(prefers-color-scheme: dark)').addEventListener('change', event => {
+            if (event.matches) {
+                document.documentElement.classList.add('dark');
+            } else {
+                document.documentElement.classList.remove('dark');
+            }
+        });
+
+        const nationalities = ['Iceland', 'Sweden', 'Switzerland', 'Austria', 'Finland', 'Denmark', 'Australia', 'USA', 'England', 'Scotland', 'France', 'Germany', 'Luxembourg', 'Belgium', 'Poland', 'Croatia'];
+
+        const themes = ['surreal', 'hyperreal', 'cottagecore', 'barbiecore', 'fairycore', 'orchardcore', 'meadowcore', 'forestcore', 'seaside cottagecore', 'gardencore', 'dreamcore', 'nostalgiacore', 'vintagecore', 'maximalist', 'minimalist', 'bohemian', 'romantic', 'ethereal', 'avant-garde', 'retro-futurism', 'art nouveau', 'impressionist', 'neo-baroque', 'tropical', 'desert minimalism', 'Nordic hygge', 'Mediterranean', 'Californian', 'Parisian chic', 'Japanese aesthetic', 'mid-century modern'];
+
+        const professions = ['nursing', 'midwifery', 'elementary teaching', 'nursery teaching', 'secretarial work', 'domestic service', 'housekeeping', 'childcare work', 'textile mill work', 'garment sewing', 'dressmaking', 'waitressing', 'cafeteria work', 'cooking', 'baking', 'social work', 'librarianship', 'hospitality hosting', 'hotel housekeeping', 'beautician work', 'hairdressing', 'cosmetics sales', 'retail counter work', 'floral arranging', 'kindergarten instruction', 'home economics teaching', 'dental assisting', 'medical assisting', 'pharmacy assisting', 'weaving', 'embroidery work', 'daycare management'];
+
+        const hairStyles = ['loose side braid', 'messy low bun', 'wind-tousled half-up twist', 'loose fishtail braid', 'wind-swept crown braid', 'loose double-bun', 'wind-tangled side braid', 'high ponytail', 'low ponytail', 'messy crown braid', 'loose bob', 'sleek straight', 'beachy waves', 'voluminous curls', 'half-up half-down', 'French twist', 'messy top knot', 'braided crown', 'waterfall braid'];
+
+        const eyeColors = ['pale grey with a faint green ring', 'ice blue with a pale green inner ring', 'light grey with a faint ice-blue ring', 'pale green with a faint icy ring', 'light grey with faint pale-green flecks', 'ice-blue with a faint heterochromatic ring of green', 'warm hazel with golden flecks', 'deep brown with amber highlights', 'emerald green', 'sapphire blue', 'stormy grey', 'honey amber'];
+
+        const colorPalettes = [
+            'Soft pinks, lilacs, creams, muted pastels',
+            'Vibrant corals, teals, golden yellows, warm ochres',
+            'Deep burgundy, forest green, navy, rich plum',
+            'Terracotta, sage green, warm sand, dusty rose',
+            'Electric blue, hot magenta, neon coral, vivid lime',
+            'Burnt orange, deep teal, mustard yellow, brick red',
+            'Powder blue, blush pink, ivory, champagne',
+            'Charcoal grey, crisp white, silver, ice blue',
+            'Emerald, sapphire, ruby red, gold',
+            'Lavender, mint green, buttercream, peach',
+            'Cobalt blue, crimson, sunflower yellow, pure white',
+            'Chocolate brown, caramel, cream, copper',
+            'Turquoise, coral, sand beige, sea foam'
+        ];
+
+        function random(arr) {
+            return arr[Math.floor(Math.random() * arr.length)];
+        }
+
+        function randomAge() {
+            return Math.floor(Math.random() * 19) + 22; // 22-40
+        }
+
+        // Populate dropdowns
+        function populateDropdowns() {
+            const nationalitySelect = document.getElementById('nationality-select');
+            nationalities.forEach(nat => {
+                const option = document.createElement('option');
+                option.value = nat;
+                option.textContent = nat;
+                nationalitySelect.appendChild(option);
+            });
+
+            const ageSelect = document.getElementById('age-select');
+            for (let i = 22; i <= 40; i++) {
+                const option = document.createElement('option');
+                option.value = i;
+                option.textContent = i;
+                ageSelect.appendChild(option);
+            }
+
+            const themeSelect = document.getElementById('theme-select');
+            themes.forEach(theme => {
+                const option = document.createElement('option');
+                option.value = theme;
+                option.textContent = theme.charAt(0).toUpperCase() + theme.slice(1);
+                themeSelect.appendChild(option);
+            });
+
+            const professionSelect = document.getElementById('profession-select');
+            professions.forEach(prof => {
+                const option = document.createElement('option');
+                option.value = prof;
+                option.textContent = prof.charAt(0).toUpperCase() + prof.slice(1);
+                professionSelect.appendChild(option);
+            });
+
+            const hairstyleSelect = document.getElementById('hairstyle-select');
+            hairStyles.forEach(style => {
+                const option = document.createElement('option');
+                option.value = style;
+                option.textContent = style.charAt(0).toUpperCase() + style.slice(1);
+                hairstyleSelect.appendChild(option);
+            });
+
+            const eyeColorSelect = document.getElementById('eyecolor-select');
+            eyeColors.forEach(color => {
+                const option = document.createElement('option');
+                option.value = color;
+                option.textContent = color.charAt(0).toUpperCase() + color.slice(1);
+                eyeColorSelect.appendChild(option);
+            });
+        }
+
+        function generatePrompt(customInstructions) {
+            // Get values from dropdowns
+            const nationalityValue = document.getElementById('nationality-select').value;
+            const ageValue = document.getElementById('age-select').value;
+            const themeValue = document.getElementById('theme-select').value;
+            const professionValue = document.getElementById('profession-select').value;
+            const hairStyleValue = document.getElementById('hairstyle-select').value;
+            const eyeColorValue = document.getElementById('eyecolor-select').value;
+
+            const age = ageValue === 'random' ? randomAge() : parseInt(ageValue);
+            const nationality = nationalityValue === 'random' ? random(nationalities) : nationalityValue;
+            const theme = themeValue === 'random' ? random(themes) : themeValue;
+            const profession = professionValue === 'random' ? random(professions) : professionValue;
+            const hairStyle = hairStyleValue === 'random' ? random(hairStyles) : hairStyleValue;
+            const eyeColor = eyeColorValue === 'random' ? random(eyeColors) : eyeColorValue;
+            const colorPalette = random(colorPalettes);
+
+            const brandingOptions = ['GRAND TAITON', '@GrandTaitonNPS'];
+            const branding = random(brandingOptions);
+
+            // Generate profession-appropriate settings
+            const settingMap = {
+                'nursing': 'vintage medical clinic with pastel curtains',
+                'baking': 'rustic countryside bakery with warm lighting',
+                'floral arranging': 'sun-drenched flower shop with hanging blooms',
+                'teaching': 'light-filled vintage classroom with wooden desks',
+                'waitressing': 'cozy pastel café with mismatched furniture',
+                'hairdressing': 'boutique salon with vintage mirrors',
+                'librarianship': 'intimate vintage library with arched windows',
+                'retail counter work': 'charming vintage shop with display cases',
+                'default': 'sun-lit vintage workspace with soft imperfections'
+            };
+
+            const setting = settingMap[profession] || settingMap['default'];
+
+            const accessories = [
+                'Smudged rose-pink lipstick',
+                `Silver ${random(['heart', 'leaf', 'flower', 'wave'])} pendant with a crooked clasp`,
+                'Frayed woven bracelet',
+                `Chipped pastel ${random(['mint', 'lavender', 'rose', 'pink'])} nail polish`,
+                `Canvas tote with ${random(['frayed edges', 'a pulled thread', 'worn handles'])}`
+            ];
+
+            const skinDetails = `Pale with scattered freckles, a faint scratch near her ${random(['collarbone', 'shoulder', 'forearm', 'elbow'])}, and uneven early-summer tan lines`;
+
+            const attireColors = ['cream', 'hot-pink', 'pastel-rose', 'lilac', 'soft lavender', 'deep burgundy', 'emerald green', 'sapphire blue', 'burnt orange', 'charcoal grey', 'ivory', 'crimson', 'teal', 'mustard', 'coral', 'navy', 'terracotta', 'sage', 'chocolate brown', 'electric blue'];
+            const topColor = random(attireColors);
+            const bottomColor = random(attireColors.filter(c => c !== topColor));
+
+            const moodDescriptors = ['feminine', 'romantic', 'rustic', 'whimsical', 'bold', 'elegant', 'dramatic', 'ethereal', 'minimalist', 'vibrant', 'moody', 'sun-drenched', 'nostalgic', 'avant-garde'];
+
+            const prompt = {
+                subject: {
+                    age: age,
+                    nationality: nationality,
+                    appearance: {
+                        hair: `Bright white platinum blonde in a ${hairStyle}, with several wisps escaping and clinging to her temples`,
+                        eyes: eyeColor,
+                        body_type: `Exceptionally skinny with fabric subtly stretched over fully covered but disproportionately large breasts`,
+                        skin: skinDetails
+                    },
+                    action: `She laughs mid-motion while ${random(['adjusting', 'steadying', 'reaching for', 'lifting'])} ${random(['a tilted basket', 'scattered items', 'a stack of materials', 'tools of her trade'])}, one hand brushing hair from her face`
+                },
+                attire: {
+                    description: `A ${topColor} ${random(['linen blouse', 'cotton top', 'knit cardigan', 'silk shirt', 'velvet top', 'satin camisole'])} slipping off one shoulder, rumpled; a ${bottomColor} ${random(['skirt', 'sundress', 'camisole beneath', 'flowing dress', 'midi skirt'])}; worn ${random(['sandals', 'flats', 'boots', 'heels', 'sneakers'])}`,
+                    accessories: accessories
+                },
+                setting: {
+                    environment: `${setting}. ${random(['Crooked handwritten signage', 'Vintage decorations', 'Scattered materials', 'Modern elements', 'Eclectic details'])} and ${random(['warm', 'cool', 'dramatic', 'soft'])} ${random(['morning', 'afternoon', 'golden-hour', 'evening', 'midday'])} light filtering through ${random(['windows', 'curtains', 'fabric drapes', 'open spaces'])}`,
+                    theme: `${theme} with ${random(moodDescriptors)} ${random(['tones', 'aesthetic', 'atmosphere', 'vibes'])}`
+                },
+                branding: `A ${random(['wooden crate', 'sign', 'placard', 'label', 'carved post'])} ${random(['beside her', 'in the background', 'on the counter'])} displays '${branding}' in bold ${random(['hand-painted', 'engraved', 'stamped'])} lettering`,
+                mood: `Candid, playful, warm, feminine; captured in hyperrealistic analogue style with natural imperfections`,
+                technical_notes: {
+                    style: `Hyperrealistic analogue photography with soft grain and asymmetrical framing`,
+                    color_palette: colorPalette,
+                    lighting: `Warm, diffuse natural ${random(['morning', 'afternoon', 'golden-hour'])} light`
+                }
+            };
+
+            // Apply custom instructions if provided
+            if (customInstructions && customInstructions.trim()) {
+                prompt.custom_context = `Custom: ${customInstructions.trim()}`;
+            }
+
+            return JSON.stringify(prompt, null, 2);
+        }
+
+        function showNotification(message) {
+            const notification = document.getElementById('notification');
+            notification.textContent = message;
+            notification.classList.add('show');
+            setTimeout(() => {
+                notification.classList.remove('show');
+            }, 3000);
+        }
+
+        function updateCharCount(text) {
+            const charCount = document.getElementById('char-count');
+            const length = text.length;
+            charCount.textContent = `${length} / 1750 characters`;
+            if (length > 1750) {
+                charCount.classList.add('over-limit');
+            } else {
+                charCount.classList.remove('over-limit');
+            }
+        }
+
+        document.getElementById('generate-btn').addEventListener('click', function() {
+            const customInstructions = document.getElementById('custom-instructions').value;
+            const jsonPrompt = generatePrompt(customInstructions);
+
+            const outputSection = document.getElementById('output-section');
+            const jsonOutput = document.getElementById('json-output');
+
+            jsonOutput.value = jsonPrompt;
+            updateCharCount(jsonPrompt);
+            outputSection.classList.add('show');
+
+            // Scroll to output
+            outputSection.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
+        });
+
+        document.getElementById('copy-btn').addEventListener('click', async function() {
+            const jsonOutput = document.getElementById('json-output');
+            try {
+                await navigator.clipboard.writeText(jsonOutput.value);
+                showNotification('JSON copied to clipboard!');
+            } catch (err) {
+                // Fallback for older browsers
+                jsonOutput.select();
+                document.execCommand('copy');
+                showNotification('JSON copied to clipboard!');
+            }
+        });
+
+        document.getElementById('new-btn').addEventListener('click', function() {
+            document.getElementById('generate-btn').click();
+        });
+
+        // Initialize dropdowns on page load
+        populateDropdowns();
+    </script>
+</body>
+</html>
